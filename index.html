@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Start Page</title>
+<style>
+:root{
+  --bg:#eef0ea; --surface:#fbfbf8; --ink:#1d2a24; --muted:#6b7a72; --line:#d6dbd2; --accent:#2f6f5e; --danger:#b3412f;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#141a17; --surface:#1d2521; --ink:#e6ece7; --muted:#8fa096; --line:#2f3a35; --accent:#6fc0a8; --danger:#e47a67}
+}
+:root[data-theme="dark"]{--bg:#141a17; --surface:#1d2521; --ink:#e6ece7; --muted:#8fa096; --line:#2f3a35; --accent:#6fc0a8; --danger:#e47a67}
+html{color-scheme:light dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 "Avenir Next",Avenir,"Segoe UI",Helvetica,Arial,sans-serif;min-height:100vh}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:28px 28px 8px;max-width:1400px;margin:0 auto}
+h1{margin:0;font:600 1.9rem/1.1 Georgia,"Iowan Old Style",serif;letter-spacing:-.01em}
+#greet{color:var(--muted);font-size:.95rem;margin-top:4px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+input,select,button{font:inherit;color:inherit}
+input[type=text],input[type=search],input[type=url]{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;width:100%}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#q{width:220px}
+.btn{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 14px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
+.btn.danger{color:var(--danger)}
+main{max-width:1400px;margin:0 auto;padding:16px 28px 60px}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px;align-items:start}
+.card{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--c,var(--accent));border-radius:10px;padding:12px 12px 10px}
+.card.over{outline:2px dashed var(--accent);outline-offset:3px}
+.card.dragging,.site.dragging{opacity:.4}
+.head{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.grip{cursor:grab;color:var(--muted);user-select:none;padding:2px 4px;font-size:1.1rem;line-height:1}
+.head h2{flex:1;margin:0;font-size:1.05rem;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.count{color:var(--muted);font-size:.8rem}
+.ib{background:none;border:0;border-radius:6px;padding:4px 7px;cursor:pointer;color:var(--muted)}
+.ib:hover{background:var(--bg);color:var(--ink)}
+ul{list-style:none;margin:0;padding:0;min-height:12px}
+.site{display:flex;align-items:center;gap:4px;border-radius:8px;padding:2px 2px 2px 4px}
+.site.over{box-shadow:0 -2px 0 var(--accent)}
+.site a{flex:1;display:flex;align-items:center;gap:10px;min-width:0;padding:6px;border-radius:6px;color:inherit;text-decoration:none}
+.site:hover{background:var(--bg)}
+.dot{flex:none;width:26px;height:26px;border-radius:7px;background:var(--c,var(--accent));color:#fff;display:grid;place-items:center;font-weight:700;font-size:.8rem}
+.txt{min-width:0}
+.txt b{display:block;font-weight:550;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.txt small{display:block;color:var(--muted);font-size:.75rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.site .ib{opacity:0}
+.site:hover .ib,.site:focus-within .ib{opacity:1}
+.add{width:100%;margin-top:6px;text-align:left;color:var(--muted);background:none;border:1px dashed var(--line);border-radius:8px;padding:7px 10px;cursor:pointer}
+.add:hover{color:var(--ink);border-color:var(--accent)}
+.empty{text-align:center;color:var(--muted);padding:70px 20px}
+dialog{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:20px;width:min(380px,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+dialog h3{margin:0 0 12px;font:600 1.2rem Georgia,serif}
+label{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 4px}
+.row{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+input[type=color]{width:56px;height:36px;padding:2px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){#toast{transition:none}}
+@media (max-width:560px){header,main{padding-left:16px;padding-right:16px}#q{width:100%}.bar{width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>My Start Page</h1><div id="greet"></div></div>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Filter sites…" aria-label="Filter sites">
+    <button class="btn primary" id="addCat">New category</button>
+    <button class="btn" id="exp">Export</button>
+    <button class="btn" id="imp">Import</button>
+    <input type="file" id="file" accept="application/json,.json" hidden>
+  </div>
+</header>
+<main><div id="grid"></div></main>
+
+<dialog id="dCat"><form method="dialog" id="fCat">
+  <h3 id="dCatT">New category</h3>
+  <label for="cName">Name</label><input type="text" id="cName" required maxlength="40">
+  <label for="cCol">Colour</label><input type="color" id="cCol">
+  <div class="row"><button type="button" class="btn danger" id="cDel" hidden>Delete</button><span style="flex:1"></span><button type="button" class="btn" data-close>Cancel</button><button class="btn primary">Save</button></div>
+</form></dialog>
+
+<dialog id="dSite"><form method="dialog" id="fSite">
+  <h3 id="dSiteT">Add site</h3>
+  <label for="sUrl">Address</label><input type="text" id="sUrl" required placeholder="example.com" autocapitalize="off">
+  <label for="sTitle">Title (optional)</label><input type="text" id="sTitle" maxlength="60">
+  <div class="row"><button type="button" class="btn" data-close>Cancel</button><button class="btn primary">Save</button></div>
+</form></dialog>
+
+<dialog id="dImp"><form method="dialog">
+  <h3>Import data</h3>
+  <p id="impInfo" style="margin:0;color:var(--muted)"></p>
+  <div class="row"><button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn" id="impMerge">Merge</button><button type="button" class="btn primary" id="impReplace">Replace all</button></div>
+</form></dialog>
+<div id="toast" role="status"></div>
+
+<script>
+(function(){
+var KEY="startpage-data-v1", $=function(s){return document.querySelector(s)};
+var state={categories:[]}, filter="", drag=null, editCat=null, editSite=null, pending=null;
+
+function uid(){return Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-3)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+function load(){
+  try{var r=localStorage.getItem(KEY);if(r){var d=clean(JSON.parse(r));if(d){state=d;return}}}catch(e){}
+  state={categories:[
+    {id:uid(),name:"Search & Reference",color:"#2f6f5e",sites:[{id:uid(),title:"Wikipedia",url:"https://www.wikipedia.org"},{id:uid(),title:"DuckDuckGo",url:"https://duckduckgo.com"}]},
+    {id:uid(),name:"Work",color:"#3b5ea8",sites:[]}
+  ]};
+}
+function normUrl(u){
+  u=String(u||"").trim();if(!u)return null;
+  if(!/^[a-z][a-z0-9+.-]*:\/\//i.test(u))u="https://"+u;
+  try{var p=new URL(u);return /^https?:$/.test(p.protocol)?p.href:null}catch(e){return null}
+}
+function clean(d){
+  if(!d||!Array.isArray(d.categories))return null;
+  var out={categories:[]};
+  d.categories.forEach(function(c){
+    if(!c||typeof c.name!=="string")return;
+    var cat={id:uid(),name:c.name.slice(0,40),color:/^#[0-9a-f]{6}$/i.test(c.color)?c.color:"#2f6f5e",sites:[]};
+    (Array.isArray(c.sites)?c.sites:[]).forEach(function(s){
+      var u=s&&normUrl(s.url);if(u)cat.sites.push({id:uid(),title:String(s.title||"").slice(0,60),url:u});
+    });
+    out.categories.push(cat);
+  });
+  return out;
+}
+function host(u){try{return new URL(u).hostname.replace(/^www\./,"")}catch(e){return u}}
+function toast(m){var t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(function(){t.classList.remove("on")},2400)}
+
+function render(){
+  var q=filter.toLowerCase(), html="";
+  state.categories.forEach(function(c){
+    var sites=c.sites.filter(function(s){return !q||(s.title+" "+s.url).toLowerCase().indexOf(q)>-1});
+    if(q&&!sites.length)return;
+    html+='<section class="card" data-cat="'+c.id+'" style="--c:'+esc(c.color)+'">'
+      +'<div class="head"><span class="grip" draggable="true" data-grip title="Drag to reorder" aria-hidden="true">⠿</span>'
+      +'<h2>'+esc(c.name)+'</h2><span class="count">'+c.sites.length+'</span>'
+      +'<button class="ib" data-act="editCat" aria-label="Edit category '+esc(c.name)+'">✎</button></div><ul>';
+    sites.forEach(function(s){
+      var t=s.title||host(s.url);
+      html+='<li class="site" draggable="true" data-site="'+s.id+'"><a href="'+esc(s.url)+'" target="_blank" rel="noopener noreferrer" draggable="false">'
+        +'<span class="dot">'+esc(t.charAt(0).toUpperCase())+'</span><span class="txt"><b>'+esc(t)+'</b><small>'+esc(host(s.url))+'</small></span></a>'
+        +'<button class="ib" data-act="editSite" aria-label="Edit '+esc(t)+'">✎</button></li>';
+    });
+    html+='</ul><button class="add" data-act="addSite">+ Add site</button></section>';
+  });
+  if(!html)html='<div class="empty">'+(q?'No sites match “'+esc(filter)+'”.':'No categories yet. Choose “New category” to start.')+'</div>';
+  $("#grid").innerHTML=html;
+}
+
+/* Dialogs */
+document.addEventListener("click",function(e){if(e.target.closest("[data-close]"))e.target.closest("dialog").close()});
+function openCat(id){
+  editCat=id;var c=state.categories.find(function(x){return x.id===id});
+  $("#dCatT").textContent=c?"Edit category":"New category";
+  $("#cName").value=c?c.name:"";
+  $("#cCol").value=c?c.color:["#2f6f5e","#3b5ea8","#a8553b","#7a4aa0","#a8892f","#2f7f9a"][state.categories.length%6];
+  $("#cDel").hidden=!c;$("#dCat").showModal();$("#cName").focus();
+}
+$("#addCat").onclick=function(){openCat(null)};
+$("#fCat").onsubmit=function(){
+  var n=$("#cName").value.trim();if(!n)return;
+  var c=state.categories.find(function(x){return x.id===editCat});
+  if(c){c.name=n;c.color=$("#cCol").value}else state.categories.push({id:uid(),name:n,color:$("#cCol").value,sites:[]});
+  save();render();
+};
+$("#cDel").onclick=function(){
+  var c=state.categories.find(function(x){return x.id===editCat});
+  if(c&&(!c.sites.length||window.confirm("Delete “"+c.name+"” and its "+c.sites.length+" site(s)?"))){
+    state.categories=state.categories.filter(function(x){return x.id!==editCat});save();render();$("#dCat").close();
+  }
+};
+function openSite(catId,siteId){
+  editSite={cat:catId,site:siteId};var s=null;
+  if(siteId){s=state.categories.find(function(c){return c.id===catId}).sites.find(function(x){return x.id===siteId})}
+  $("#dSiteT").textContent=s?"Edit site":"Add site";
+  $("#sUrl").value=s?s.url:"";$("#sTitle").value=s?s.title:"";
+  $("#dSite").showModal();$("#sUrl").focus();
+}
+$("#fSite").onsubmit=function(e){
+  var u=normUrl($("#sUrl").value);
+  if(!u){e.preventDefault();toast("Enter a valid web address.");return}
+  var c=state.categories.find(function(x){return x.id===editSite.cat});
+  var s=editSite.site&&c.sites.find(function(x){return x.id===editSite.site});
+  if(s){s.url=u;s.title=$("#sTitle").value.trim()}else c.sites.push({id:uid(),title:$("#sTitle").value.trim(),url:u});
+  save();render();
+};
+$("#grid").addEventListener("click",function(e){
+  var b=e.target.closest("[data-act]");if(!b)return;
+  var card=b.closest(".card"),id=card.dataset.cat,li=b.closest(".site");
+  if(b.dataset.act==="editCat")openCat(id);
+  else if(b.dataset.act==="addSite")openSite(id,null);
+  else if(b.dataset.act==="editSite"){
+    openSite(id,li.dataset.site);
+    // allow deletion via a second confirm path
+  }
+});
+// delete button inside site dialog
+var del=document.createElement("button");del.type="button";del.className="btn danger";del.textContent="Delete";del.hidden=true;
+$("#fSite .row").insertBefore(del,$("#fSite .row").firstChild);
+var sp=document.createElement("span");sp.style.flex="1";$("#fSite .row").insertBefore(sp,del.nextSibling);
+$("#dSite").addEventListener("close",function(){del.hidden=true});
+var _open=openSite;openSite=function(c,s){_open(c,s);del.hidden=!s};
+del.onclick=function(){
+  var c=state.categories.find(function(x){return x.id===editSite.cat});
+  c.sites=c.sites.filter(function(x){return x.id!==editSite.site});save();render();$("#dSite").close();
+};
+
+/* Drag & drop (categories via grip, sites via row) */
+var g=$("#grid");
+g.addEventListener("dragstart",function(e){
+  var grip=e.target.closest("[data-grip]"),li=e.target.closest(".site");
+  if(grip){var card=grip.closest(".card");drag={type:"cat",id:card.dataset.cat};card.classList.add("dragging");try{e.dataTransfer.setDragImage(card,20,20)}catch(x){}}
+  else if(li){drag={type:"site",id:li.dataset.site,cat:li.closest(".card").dataset.cat};li.classList.add("dragging")}
+  else return;
+  e.dataTransfer.effectAllowed="move";e.dataTransfer.setData("text/plain",drag.id);
+});
+function clearOver(){g.querySelectorAll(".over").forEach(function(n){n.classList.remove("over")})}
+g.addEventListener("dragover",function(e){
+  if(!drag)return;var card=e.target.closest(".card");if(!card)return;
+  e.preventDefault();clearOver();
+  if(drag.type==="cat")card.classList.add("over");
+  else{var li=e.target.closest(".site");(li||card).classList.add("over")}
+});
+g.addEventListener("drop",function(e){
+  if(!drag)return;e.preventDefault();
+  var card=e.target.closest(".card");if(!card)return endDrag();
+  var tcat=card.dataset.cat, cats=state.categories;
+  if(drag.type==="cat"){
+    var from=cats.findIndex(function(c){return c.id===drag.id}), to=cats.findIndex(function(c){return c.id===tcat});
+    if(from>-1&&to>-1&&from!==to){cats.splice(to,0,cats.splice(from,1)[0])}
+  }else{
+    var src=cats.find(function(c){return c.id===drag.cat}), dst=cats.find(function(c){return c.id===tcat});
+    var i=src.sites.findIndex(function(s){return s.id===drag.id}), item=src.sites.splice(i,1)[0];
+    var li=e.target.closest(".site"), at=li?dst.sites.findIndex(function(s){return s.id===li.dataset.site}):dst.sites.length;
+    dst.sites.splice(at<0?dst.sites.length:at,0,item);
+  }
+  save();endDrag();
+});
+g.addEventListener("dragend",endDrag);
+function endDrag(){drag=null;clearOver();render()}
+
+/* Search */
+$("#q").addEventListener("input",function(e){filter=e.target.value.trim();render()});
+
+/* Export / import */
+$("#exp").onclick=function(){
+  var blob=new Blob([JSON.stringify({app:"startpage",version:1,exported:new Date().toISOString(),categories:state.categories.map(function(c){return {name:c.name,color:c.color,sites:c.sites.map(function(s){return {title:s.title,url:s.url}})}})},null,2)],{type:"application/json"});
+  var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="startpage-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},1000);
+  toast("Exported to JSON.");
+};
+$("#imp").onclick=function(){$("#file").click()};
+$("#file").onchange=function(e){
+  var f=e.target.files[0];e.target.value="";if(!f)return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{pending=clean(JSON.parse(r.result))}catch(x){pending=null}
+    if(!pending){toast("That file isn’t a valid start page export.");return}
+    var n=pending.categories.reduce(function(a,c){return a+c.sites.length},0);
+    $("#impInfo").textContent="Found "+pending.categories.length+" categories and "+n+" sites. Replace everything here, or merge them in?";
+    $("#dImp").showModal();
+  };
+  r.readAsText(f);
+};
+$("#impReplace").onclick=function(){state=pending;save();render();$("#dImp").close();toast("Imported.")};
+$("#impMerge").onclick=function(){
+  pending.categories.forEach(function(nc){
+    var ex=state.categories.find(function(c){return c.name.toLowerCase()===nc.name.toLowerCase()});
+    if(!ex)state.categories.push(nc);
+    else nc.sites.forEach(function(s){if(!ex.sites.some(function(x){return x.url===s.url}))ex.sites.push(s)});
+  });
+  save();render();$("#dImp").close();toast("Merged.");
+};
+
+var h=new Date().getHours();
+$("#greet").textContent=(h<12?"Good morning":h<18?"Good afternoon":"Good evening")+". Drag the ⠿ handle to reorder cards; drag sites between them.";
+load();render();
+})();
+</script>
+</body>
+</html>
