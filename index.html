@@ -10,14 +10,14 @@
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#141a17; --surface:#1d2521; --ink:#e6ece7; --muted:#8fa096; --line:#2f3a35; --accent:#6fc0a8; --danger:#e47a67}
+  :root:not([data-theme="light"]){--bg:#24304d; --surface:#3e4b68; --ink:#e6ece7; --muted:#8fa096; --line:#2f3a35; --accent:#9acbff; --danger:#e47a67}
 }
 :root[data-theme="dark"]{--bg:#141a17; --surface:#1d2521; --ink:#e6ece7; --muted:#8fa096; --line:#2f3a35; --accent:#6fc0a8; --danger:#e47a67}
 html{color-scheme:light dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 "Avenir Next",Avenir,"Segoe UI",Helvetica,Arial,sans-serif;min-height:100vh}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 monospace,"Avenir Next",Avenir,"Segoe UI",Helvetica,Arial,sans-serif;min-height:100vh}
 header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:28px 28px 8px;max-width:1400px;margin:0 auto}
-h1{margin:0;font:600 1.9rem/1.1 Georgia,"Iowan Old Style",serif;letter-spacing:-.01em}
+h1{margin:0;font:600 1.9rem/1.1 monospace,Georgia,"Iowan Old Style",serif;letter-spacing:-.01em}
 #greet{color:var(--muted);font-size:.95rem;margin-top:4px}
 .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 input,select,button{font:inherit;color:inherit}
